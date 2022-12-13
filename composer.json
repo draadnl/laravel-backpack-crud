@@ -13,6 +13,12 @@
         "content management system",
         "content management framework"
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/draadnl/laravel-backpack-base.git"
+        }
+    ],
     "homepage": "https://github.com/laravel-backpack/CRUD",
     "license": "MIT",
     "authors": [
@@ -24,7 +30,7 @@
         }
     ],
     "require": {
-        "backpack/base": "1.1.*",
+        "backpack/base": "dev-master",
         "doctrine/dbal": "^2.5",
         "venturecraft/revisionable": "1.*",
         "intervention/image": "^2.3",
