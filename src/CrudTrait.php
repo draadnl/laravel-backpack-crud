@@ -54,12 +54,14 @@ trait CrudTrait
         $conn = DB::connection($instance->getConnectionName());
         $table = Config::get('database.connections.'.Config::get('database.default').'.prefix').$instance->getTable();
 
-        // register the enum, json and jsonb column type, because Doctrine doesn't support it
-        $conn->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-        //$conn->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('json', 'json_array');
-        //$conn->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('jsonb', 'json_array');
+        $columns = \Schema::connection($instance->getConnectionName())->getColumns($table);
 
-        return ! $conn->getDoctrineColumn($table, $column_name)->getNotnull();
+        if (! in_array($column_name, array_column($columns, 'name'))) {
+            // if the column does not exist, return false
+            return false;
+        }
+
+        return $columns[array_search($column_name, array_column($columns, 'name'))]['nullable'] ?? false;
     }
 
     /*
